@@ -178,6 +178,11 @@ function changeBet(delta) {
   slotBet = Math.max(5, Math.min(1000, slotBet + delta));
   document.getElementById('slot-bet').textContent = slotBet;
 }
+function changeBet2(delta) {
+  slotBet = Math.max(500, Math.min(1000, slotBet + delta));
+  document.getElementById('slot-bet').textContent = slotBet;
+}
+
 
 function spinSlots() {
   if (slotSpinning || balance < slotBet) {
@@ -603,6 +608,7 @@ window.openGame = openGame;
 window.goLobby = goLobby;
 window.switchTab = switchTab;
 window.changeBet = changeBet;
+window.changeBet2 = changeBet2;
 window.spinSlots = spinSlots;
 window.selectChip = selectChip;
 window.selectRoulBet = selectRoulBet;

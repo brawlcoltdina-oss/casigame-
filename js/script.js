@@ -170,12 +170,12 @@ function goLobby() {
 
 // ===== SLOT MACHINE =====
 const symbols = ['7️⃣','💎','⭐','🔔','🍇','🍒','🍋','🍊','🍉','🍀'];
-const payouts = { '7️⃣': 50000, '💎': 30, '⭐': 20, '🔔': 15, '🍇': 10, '🍒': 8 };
+const payouts = { '7️⃣': 50000, '💎': 500, '⭐': 250, '🔔': 100, '🍇': 50, '🍒': 25 };
 let slotBet = 10;
 let slotSpinning = false;
 
 function changeBet(delta) {
-  slotBet = Math.max(5, Math.min(500, slotBet + delta));
+  slotBet = Math.max(5, Math.min(1000, slotBet + delta));
   document.getElementById('slot-bet').textContent = slotBet;
 }
 
@@ -218,7 +218,7 @@ function evaluateSlots(s) {
     msg = '<span class="win-msg">🎉 JACKPOT ! × ' + mult + ' = +' + fmt(win) + '</span>';
     reels_win = [true,true,true];
   } else if (s[0] === s[1] || s[1] === s[2] || s[0] === s[2]) {
-    win = Math.floor(slotBet * 1.5);
+    win = Math.floor(slotBet * 2);
     msg = '<span class="win-msg">✨ DEUX IDENTIQUES ! +' + fmt(win) + '</span>';
     if (s[0]===s[1]) { reels_win[0]=reels_win[1]=true; }
     else if (s[1]===s[2]) { reels_win[1]=reels_win[2]=true; }

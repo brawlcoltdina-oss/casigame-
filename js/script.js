@@ -175,11 +175,11 @@ let slotBet = 10;
 let slotSpinning = false;
 
 function changeBet(delta) {
-  slotBet = Math.max(5, Math.min(1000, slotBet + delta));
+  slotBet = Math.max(5, Math.min(10000, slotBet + delta));
   document.getElementById('slot-bet').textContent = slotBet;
 }
 function changeBet2(delta) {
-  slotBet = Math.max(500, Math.min(1000, slotBet + delta));
+  slotBet = Math.max(500, Math.min(10000, slotBet + delta));
   document.getElementById('slot-bet').textContent = slotBet;
 }
 

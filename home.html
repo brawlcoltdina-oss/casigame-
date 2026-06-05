@@ -33,8 +33,8 @@
     overflow-x: hidden;
   }
 
-  /* LOBBY */
-  #lobby {
+  /* ===== AUTH SCREEN ===== */
+  #auth-screen {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -43,6 +43,263 @@
     background: radial-gradient(ellipse at center, #1a0a00 0%, var(--black) 70%);
     padding: 2rem;
   }
+
+  .auth-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 7vw, 4rem);
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    letter-spacing: 0.2em;
+    text-shadow: 0 0 40px rgba(212,175,55,0.4);
+    margin-bottom: 0.2em;
+  }
+
+  .auth-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.65rem, 1.5vw, 0.85rem);
+    color: var(--gold-dark);
+    letter-spacing: 0.5em;
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .gold-line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0.8rem auto;
+  }
+
+  .auth-card {
+    background: var(--dark2);
+    border: 1px solid var(--gold-dark);
+    border-radius: 16px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 0 50px rgba(212,175,55,0.08);
+  }
+
+  .auth-tabs {
+    display: flex;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #333;
+  }
+
+  .auth-tab {
+    flex: 1;
+    padding: 0.75rem;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    margin-bottom: -1px;
+  }
+
+  .auth-tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  .auth-form { display: flex; flex-direction: column; gap: 1rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .form-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+  }
+
+  .form-input {
+    background: var(--dark3);
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    color: var(--text);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .form-input:focus { border-color: var(--gold-dark); }
+  .form-input::placeholder { color: #555; }
+
+  .auth-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    border: none;
+    border-radius: 8px;
+    color: var(--black);
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+  }
+
+  .auth-btn:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
+  .auth-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .google-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--dark3);
+    border: 1px solid #444;
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .google-btn:hover { border-color: #666; background: #2a2a2a; }
+
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #444;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+  }
+
+  .auth-divider::before, .auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #333;
+  }
+
+  .auth-error {
+    background: rgba(192,57,43,0.15);
+    border: 1px solid rgba(192,57,43,0.4);
+    border-radius: 6px;
+    padding: 0.7rem 1rem;
+    font-size: 0.75rem;
+    color: #ff8080;
+    text-align: center;
+    display: none;
+  }
+
+  .auth-success {
+    background: rgba(26,92,58,0.2);
+    border: 1px solid rgba(26,92,58,0.5);
+    border-radius: 6px;
+    padding: 0.7rem 1rem;
+    font-size: 0.75rem;
+    color: #4ade80;
+    text-align: center;
+    display: none;
+  }
+
+  /* ===== LOADING SCREEN ===== */
+  #loading-screen {
+    display: none;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: radial-gradient(ellipse at center, #1a0a00 0%, var(--black) 70%);
+  }
+
+  .loader {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--dark3);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ===== USER BAR (shown when logged in) ===== */
+  .user-bar {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--dark2);
+    border-bottom: 1px solid var(--gold-dark);
+    padding: 0.6rem 1.5rem;
+    font-size: 0.75rem;
+  }
+
+  .user-bar.visible { display: flex; }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+
+  .user-email { color: var(--text-muted); font-size: 0.7rem; }
+
+  .logout-btn {
+    background: none;
+    border: 1px solid #444;
+    color: var(--text-muted);
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.65rem;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .logout-btn:hover { border-color: var(--red); color: #ff8080; }
+
+  /* ===== LOBBY ===== */
+  #lobby {
+    min-height: calc(100vh - 44px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #1a0a00 0%, var(--black) 70%);
+    padding: 2rem;
+  }
+
+  #lobby.visible { display: flex; }
 
   .casino-title {
     font-family: 'Cinzel', serif;
@@ -64,13 +321,6 @@
     margin-bottom: 3rem;
   }
 
-  .gold-line {
-    width: 200px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 1rem auto;
-  }
-
   .balance-bar {
     background: var(--dark2);
     border: 1px solid var(--gold-dark);
@@ -80,12 +330,7 @@
     text-align: center;
   }
 
-  .balance-bar span {
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-  }
-
+  .balance-bar span { color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.2em; }
   .balance-bar .amount {
     font-family: 'Cinzel', serif;
     font-size: 1.8rem;
@@ -128,39 +373,14 @@
     box-shadow: 0 8px 30px rgba(212,175,55,0.2);
   }
 
-  .game-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    display: block;
-  }
+  .game-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+  .game-name { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 0.5rem; letter-spacing: 0.1em; }
+  .game-desc { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.1em; }
 
-  .game-name {
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.1em;
-  }
+  /* ===== SCREENS ===== */
+  .screen { display: none; min-height: calc(100vh - 44px); flex-direction: column; background: var(--black); }
+  .screen.active { display: flex; }
 
-  .game-desc {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-  }
-
-  /* SCREENS */
-  .screen {
-    display: none;
-    min-height: 100vh;
-    flex-direction: column;
-    background: var(--black);
-  }
-
-  .screen.active {
-    display: flex;
-  }
-
-  /* TOP BAR */
   .top-bar {
     display: flex;
     align-items: center;
@@ -185,22 +405,10 @@
   }
 
   .back-btn:hover { background: rgba(212,175,55,0.1); }
+  .top-game-name { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1rem; letter-spacing: 0.2em; }
+  .top-balance { font-family: 'Roboto Mono', monospace; color: var(--gold); font-size: 0.9rem; font-weight: 600; }
 
-  .top-game-name {
-    font-family: 'Cinzel', serif;
-    color: var(--gold);
-    font-size: 1rem;
-    letter-spacing: 0.2em;
-  }
-
-  .top-balance {
-    font-family: 'Roboto Mono', monospace;
-    color: var(--gold);
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-
-  /* SLOT MACHINE */
+  /* ===== SLOT MACHINE ===== */
   .slot-wrapper {
     flex: 1;
     display: flex;
@@ -247,10 +455,7 @@
     transition: all 0.3s;
   }
 
-  .reel.spinning .reel-symbol {
-    animation: spinReel 0.08s linear infinite;
-  }
-
+  .reel.spinning .reel-symbol { animation: spinReel 0.08s linear infinite; }
   @keyframes spinReel {
     0% { transform: translateY(-50%); opacity: 0; }
     50% { transform: translateY(0); opacity: 1; }
@@ -268,7 +473,6 @@
     50% { transform: scale(1.05); }
   }
 
-  /* BET CONTROLS */
   .bet-controls {
     display: flex;
     align-items: center;
@@ -290,14 +494,7 @@
   }
 
   .bet-btn:hover { background: rgba(212,175,55,0.2); }
-
-  .bet-display {
-    font-family: 'Cinzel', serif;
-    color: var(--gold);
-    font-size: 1.2rem;
-    min-width: 80px;
-    text-align: center;
-  }
+  .bet-display { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.2rem; min-width: 80px; text-align: center; }
 
   .spin-btn {
     width: 100%;
@@ -317,14 +514,7 @@
   .spin-btn:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
   .spin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  .result-msg {
-    text-align: center;
-    font-family: 'Cinzel', serif;
-    font-size: 1rem;
-    min-height: 1.5rem;
-    letter-spacing: 0.1em;
-  }
-
+  .result-msg { text-align: center; font-family: 'Cinzel', serif; font-size: 1rem; min-height: 1.5rem; letter-spacing: 0.1em; }
   .win-msg { color: var(--gold); }
   .lose-msg { color: var(--red); }
 
@@ -337,28 +527,12 @@
     padding: 1rem;
   }
 
-  .paytable-title {
-    font-family: 'Cinzel', serif;
-    color: var(--gold-dark);
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-align: center;
-    margin-bottom: 0.8rem;
-  }
-
-  .pay-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    padding: 0.3rem 0;
-    border-bottom: 1px solid #1a1a1a;
-    color: var(--text-muted);
-  }
-
+  .paytable-title { font-family: 'Cinzel', serif; color: var(--gold-dark); font-size: 0.7rem; letter-spacing: 0.2em; text-align: center; margin-bottom: 0.8rem; }
+  .pay-row { display: flex; justify-content: space-between; font-size: 0.75rem; padding: 0.3rem 0; border-bottom: 1px solid #1a1a1a; color: var(--text-muted); }
   .pay-row:last-child { border-bottom: none; }
   .pay-row .pay-win { color: var(--gold); }
 
-  /* ROULETTE */
+  /* ===== ROULETTE ===== */
   .roulette-wrapper {
     flex: 1;
     display: flex;
@@ -377,11 +551,7 @@
     flex-shrink: 0;
   }
 
-  .wheel-svg {
-    width: 100%;
-    height: 100%;
-    transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-  }
+  .wheel-svg { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
 
   .wheel-pointer {
     position: absolute;
@@ -422,21 +592,9 @@
     padding: 1rem;
   }
 
-  .board-title {
-    font-family: 'Cinzel', serif;
-    color: var(--gold);
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-align: center;
-    margin-bottom: 0.8rem;
-  }
+  .board-title { font-family: 'Cinzel', serif; color: var(--gold); font-size: 0.7rem; letter-spacing: 0.2em; text-align: center; margin-bottom: 0.8rem; }
 
-  .outside-bets {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.4rem;
-    margin-bottom: 0.8rem;
-  }
+  .outside-bets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; margin-bottom: 0.8rem; }
 
   .bet-option {
     background: rgba(0,0,0,0.3);
@@ -452,22 +610,11 @@
     transition: all 0.2s;
   }
 
-  .bet-option:hover, .bet-option.selected {
-    background: rgba(212,175,55,0.2);
-    border-color: var(--gold);
-    color: var(--gold);
-  }
-
+  .bet-option:hover, .bet-option.selected { background: rgba(212,175,55,0.2); border-color: var(--gold); color: var(--gold); }
   .bet-option.red-opt { border-color: rgba(192,57,43,0.5); }
   .bet-option.red-opt:hover, .bet-option.red-opt.selected { background: rgba(192,57,43,0.3); border-color: var(--red); color: #ff8080; }
-  .bet-option.black-opt { border-color: rgba(255,255,255,0.2); }
 
-  .numbers-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 2px;
-    margin-bottom: 0.8rem;
-  }
+  .numbers-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; margin-bottom: 0.8rem; }
 
   .num-cell {
     aspect-ratio: 1;
@@ -487,13 +634,7 @@
   .num-cell.green-num { background: rgba(0,150,50,0.6); }
   .num-cell:hover, .num-cell.selected { border-color: var(--gold); transform: scale(1.1); }
 
-  .spin-area {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+  .spin-area { display: flex; align-items: center; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
   .roul-spin-btn {
     background: linear-gradient(135deg, var(--gold-dark), var(--gold));
@@ -512,7 +653,7 @@
   .roul-spin-btn:hover:not(:disabled) { transform: scale(1.03); }
   .roul-spin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  /* BLACKJACK */
+  /* ===== BLACKJACK ===== */
   .bj-wrapper {
     flex: 1;
     display: flex;
@@ -525,13 +666,7 @@
     overflow-y: auto;
   }
 
-  .card-hand {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    min-height: 100px;
-  }
+  .card-hand { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; min-height: 100px; }
 
   .card {
     width: 60px;
@@ -552,40 +687,13 @@
   }
 
   .card.red-card { color: var(--red); }
-  .card.hidden {
-    background: linear-gradient(135deg, #1a1a6e 25%, #2a2aaa 100%);
-    color: transparent;
-  }
-  .card.hidden::after {
-    content: '?';
-    color: var(--gold);
-    font-size: 2rem;
-    position: absolute;
-  }
+  .card.hidden { background: linear-gradient(135deg, #1a1a6e 25%, #2a2aaa 100%); color: transparent; }
+  .card.hidden::after { content: '?'; color: var(--gold); font-size: 2rem; position: absolute; }
 
-  .hand-label {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    color: rgba(240,230,200,0.7);
-    letter-spacing: 0.2em;
-    margin-bottom: 0.5rem;
-    text-align: center;
-  }
+  .hand-label { font-family: 'Cinzel', serif; font-size: 0.75rem; color: rgba(240,230,200,0.7); letter-spacing: 0.2em; margin-bottom: 0.5rem; text-align: center; }
+  .hand-score { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold); text-align: center; margin-top: 0.3rem; }
 
-  .hand-score {
-    font-family: 'Cinzel', serif;
-    font-size: 1rem;
-    color: var(--gold);
-    text-align: center;
-    margin-top: 0.3rem;
-  }
-
-  .bj-actions {
-    display: flex;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  .bj-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center; }
 
   .bj-btn {
     padding: 0.7rem 1.5rem;
@@ -606,7 +714,7 @@
   .bj-btn:hover:not(:disabled) { transform: scale(1.05); }
   .bj-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  /* CRAPS / DICE */
+  /* ===== DICE / CRAPS ===== */
   .dice-wrapper {
     flex: 1;
     display: flex;
@@ -618,11 +726,7 @@
     background: radial-gradient(ellipse, #1a1060 0%, var(--black) 70%);
   }
 
-  .dice-area {
-    display: flex;
-    gap: 2rem;
-    margin: 1rem 0;
-  }
+  .dice-area { display: flex; gap: 2rem; margin: 1rem 0; }
 
   .die {
     width: 80px;
@@ -641,22 +745,10 @@
   .die.rolling { animation: rollDie 0.15s ease-in-out infinite alternate; }
   @keyframes rollDie { from { transform: rotate(-10deg) scale(0.95); } to { transform: rotate(10deg) scale(1.05); } }
 
-  .dot {
-    background: #1a1a1a;
-    border-radius: 50%;
-    width: 100%;
-    height: 100%;
-  }
-
+  .dot { background: #1a1a1a; border-radius: 50%; width: 100%; height: 100%; }
   .dot.hidden { background: transparent; }
 
-  .dice-bets {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-    width: 100%;
-    max-width: 360px;
-  }
+  .dice-bets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; width: 100%; max-width: 360px; }
 
   .dice-bet-opt {
     background: rgba(255,255,255,0.05);
@@ -672,11 +764,7 @@
     transition: all 0.2s;
   }
 
-  .dice-bet-opt:hover, .dice-bet-opt.selected {
-    background: rgba(212,175,55,0.15);
-    border-color: var(--gold);
-    color: var(--gold);
-  }
+  .dice-bet-opt:hover, .dice-bet-opt.selected { background: rgba(212,175,55,0.15); border-color: var(--gold); color: var(--gold); }
 
   .roll-btn {
     width: 100%;
@@ -697,7 +785,7 @@
   .roll-btn:hover:not(:disabled) { transform: scale(1.02); }
   .roll-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  /* SHARED */
+  /* ===== SHARED ===== */
   .msg-box {
     background: var(--dark2);
     border: 1px solid var(--gold-dark);
@@ -712,13 +800,7 @@
     width: 100%;
   }
 
-  .history {
-    display: flex;
-    gap: 0.3rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    max-width: 480px;
-  }
+  .history { display: flex; gap: 0.3rem; justify-content: center; flex-wrap: wrap; max-width: 480px; }
 
   .hist-chip {
     width: 24px;
@@ -735,13 +817,7 @@
   .hist-win { background: rgba(26,92,58,0.8); color: #4ade80; }
   .hist-lose { background: rgba(100,0,0,0.8); color: #ff8080; }
 
-  /* Chip selector */
-  .chip-row {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  .chip-row { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
 
   .chip {
     width: 50px;
@@ -765,18 +841,116 @@
   .chip-100 { background: #800020; color: white; border-color: rgba(255,80,80,0.5); }
   .chip:hover { transform: scale(1.1) translateY(-3px); }
   .chip.active { transform: scale(1.15) translateY(-5px); box-shadow: 0 4px 15px rgba(212,175,55,0.4); border-color: var(--gold); }
+
+  .save-indicator {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(26,92,58,0.9);
+    border: 1px solid #4ade80;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.65rem;
+    font-family: 'Cinzel', serif;
+    color: #4ade80;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .save-indicator.show { opacity: 1; }
 </style>
 </head>
 <body>
+
+<!-- SAVE INDICATOR -->
+<div class="save-indicator" id="save-indicator">💾 Solde sauvegardé</div>
+
+<!-- ===== AUTH SCREEN ===== -->
+<div id="auth-screen">
+  <div class="auth-title">♦ CASINO 777 ♦</div>
+  <div class="gold-line"></div>
+  <div class="auth-sub">ÉTABLISSEMENT DE JEUX</div>
+
+  <div class="auth-card">
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">CONNEXION</button>
+      <button class="auth-tab" id="tab-register" onclick="switchTab('register')">INSCRIPTION</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="form-login" class="auth-form">
+      <div class="auth-error" id="login-error"></div>
+      <div class="form-group">
+        <label class="form-label">ADRESSE EMAIL</label>
+        <input class="form-input" type="email" id="login-email" placeholder="votre@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">MOT DE PASSE</label>
+        <input class="form-input" type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="auth-btn" id="login-btn" onclick="loginWithEmail()">ENTRER AU CASINO</button>
+      <div class="auth-divider">OU</div>
+      <button class="google-btn" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/></svg>
+        CONTINUER AVEC GOOGLE
+      </button>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="form-register" class="auth-form" style="display:none">
+      <div class="auth-error" id="register-error"></div>
+      <div class="auth-success" id="register-success"></div>
+      <div class="form-group">
+        <label class="form-label">PSEUDO</label>
+        <input class="form-input" type="text" id="register-name" placeholder="VotreNom" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label class="form-label">ADRESSE EMAIL</label>
+        <input class="form-input" type="email" id="register-email" placeholder="votre@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">MOT DE PASSE (min. 6 caractères)</label>
+        <input class="form-input" type="password" id="register-password" placeholder="••••••••" autocomplete="new-password">
+      </div>
+      <button class="auth-btn" id="register-btn" onclick="registerWithEmail()">CRÉER MON COMPTE</button>
+      <div class="auth-divider">OU</div>
+      <button class="google-btn" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z"/><path fill="#EA4335" d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z"/></svg>
+        S'INSCRIRE AVEC GOOGLE
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading-screen" style="display:none;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;background:radial-gradient(ellipse at center,#1a0a00 0%,var(--black) 70%)">
+  <div style="font-family:'Cinzel',serif;color:var(--gold);font-size:1.2rem;letter-spacing:0.3em">♦ CASINO 777 ♦</div>
+  <div class="loader"></div>
+  <div style="font-family:'Cinzel',serif;color:var(--text-muted);font-size:0.7rem;letter-spacing:0.2em">CHARGEMENT...</div>
+</div>
+
+<!-- USER BAR -->
+<div class="user-bar" id="user-bar">
+  <div class="user-info">
+    <div class="user-avatar" id="user-avatar">??</div>
+    <div>
+      <div style="color:var(--text);font-size:0.8rem;font-family:'Cinzel',serif" id="user-display-name">Joueur</div>
+      <div class="user-email" id="user-email-display"></div>
+    </div>
+  </div>
+  <button class="logout-btn" onclick="logout()">SE DÉCONNECTER</button>
+</div>
 
 <!-- LOBBY -->
 <div id="lobby">
   <div class="casino-title">♦ CASINO 777 ♦</div>
   <div class="gold-line"></div>
-  <div class="casino-sub">ÉTABLISSEMENT DE Jeux</div>
+  <div class="casino-sub">ÉTABLISSEMENT DE JEUX</div>
   <div class="balance-bar">
     <span>VOTRE SOLDE</span>
-    <span class="amount" id="lobby-balance">1 000 €</span>
+    <span class="amount" id="lobby-balance">0 €</span>
   </div>
   <div class="games-grid">
     <div class="game-card" onclick="openGame('slots')">
@@ -807,7 +981,7 @@
   <div class="top-bar">
     <button class="back-btn" onclick="goLobby()">← LOBBY</button>
     <div class="top-game-name">🎰 MACHINES À SOUS</div>
-    <div class="top-balance" id="slots-balance">1 000 €</div>
+    <div class="top-balance" id="slots-balance">0 €</div>
   </div>
   <div class="slot-wrapper">
     <div class="slot-machine">
@@ -845,7 +1019,7 @@
   <div class="top-bar">
     <button class="back-btn" onclick="goLobby()">← LOBBY</button>
     <div class="top-game-name">🎡 ROULETTE</div>
-    <div class="top-balance" id="roul-balance">1 000 €</div>
+    <div class="top-balance" id="roul-balance">0 €</div>
   </div>
   <div class="roulette-wrapper">
     <div class="wheel-container">
@@ -858,7 +1032,7 @@
       <div class="board-title">— PARIS EXTÉRIEURS —</div>
       <div class="outside-bets">
         <div class="bet-option red-opt" onclick="selectRoulBet('red')" id="rb-red">🔴 ROUGE</div>
-        <div class="bet-option black-opt" onclick="selectRoulBet('black')" id="rb-black">⚫ NOIR</div>
+        <div class="bet-option" onclick="selectRoulBet('black')" id="rb-black">⚫ NOIR</div>
         <div class="bet-option" onclick="selectRoulBet('even')" id="rb-even">PAIR</div>
         <div class="bet-option" onclick="selectRoulBet('odd')" id="rb-odd">IMPAIR</div>
         <div class="bet-option" onclick="selectRoulBet('low')" id="rb-low">1—18</div>
@@ -889,7 +1063,7 @@
   <div class="top-bar">
     <button class="back-btn" onclick="goLobby()">← LOBBY</button>
     <div class="top-game-name">🃏 BLACKJACK</div>
-    <div class="top-balance" id="bj-balance">1 000 €</div>
+    <div class="top-balance" id="bj-balance">0 €</div>
   </div>
   <div class="bj-wrapper">
     <div>
@@ -927,7 +1101,7 @@
   <div class="top-bar">
     <button class="back-btn" onclick="goLobby()">← LOBBY</button>
     <div class="top-game-name">🎲 CRAPS</div>
-    <div class="top-balance" id="dice-balance">1 000 €</div>
+    <div class="top-balance" id="dice-balance">0 €</div>
   </div>
   <div class="dice-wrapper">
     <div style="font-family:'Cinzel',serif;color:var(--gold-dark);font-size:0.7rem;letter-spacing:0.2em">RÉSULTAT</div>
@@ -956,9 +1130,167 @@
   </div>
 </div>
 
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDaimPB4wFPVasidcMqyDlopDCwhq1C5Xo",
+    authDomain: "casigame-c8040.firebaseapp.com",
+    projectId: "casigame-c8040",
+    storageBucket: "casigame-c8040.firebasestorage.app",
+    messagingSenderId: "1026611910126",
+    appId: "1:1026611910126:web:339bf944eba21b891b6aff",
+    measurementId: "G-YH7QZK1XQJ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const googleProvider = new GoogleAuthProvider();
+
+  // ===== EXPOSE TO GLOBAL =====
+  window._auth = auth;
+  window._db = db;
+  window._googleProvider = googleProvider;
+  window._fbFns = { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, doc, getDoc, setDoc, updateDoc };
+
+  // ===== AUTH STATE LISTENER =====
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('loading-screen').style.display = 'flex';
+
+      // Load or create user data in Firestore
+      const userRef = doc(db, 'users', user.uid);
+      const snap = await getDoc(userRef);
+
+      if (!snap.exists()) {
+        // New user → give starting balance of 1000
+        await setDoc(userRef, {
+          displayName: user.displayName || user.email.split('@')[0],
+          email: user.email,
+          balance: 1000,
+          createdAt: Date.now()
+        });
+        window.balance = 1000;
+      } else {
+        window.balance = snap.data().balance;
+      }
+
+      // Update UI
+      const name = user.displayName || user.email.split('@')[0];
+      const initials = name.substring(0,2).toUpperCase();
+      document.getElementById('user-avatar').textContent = initials;
+      document.getElementById('user-display-name').textContent = name;
+      document.getElementById('user-email-display').textContent = user.email;
+      document.getElementById('user-bar').classList.add('visible');
+
+      document.getElementById('loading-screen').style.display = 'none';
+      document.getElementById('lobby').classList.add('visible');
+      window.updateAllBalances();
+    } else {
+      // Not logged in
+      document.getElementById('auth-screen').style.display = 'flex';
+      document.getElementById('loading-screen').style.display = 'none';
+      document.getElementById('lobby').classList.remove('visible');
+      document.getElementById('user-bar').classList.remove('visible');
+    }
+  });
+
+  // ===== SAVE BALANCE TO FIRESTORE =====
+  window.saveBalance = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+    const userRef = doc(db, 'users', user.uid);
+    await updateDoc(userRef, { balance: window.balance });
+    const ind = document.getElementById('save-indicator');
+    ind.classList.add('show');
+    setTimeout(() => ind.classList.remove('show'), 2000);
+  };
+
+  // ===== AUTH ACTIONS =====
+  window.loginWithEmail = async () => {
+    const email = document.getElementById('login-email').value.trim();
+    const pwd = document.getElementById('login-password').value;
+    const errEl = document.getElementById('login-error');
+    errEl.style.display = 'none';
+    const btn = document.getElementById('login-btn');
+    btn.disabled = true;
+    btn.textContent = 'CONNEXION...';
+    try {
+      await signInWithEmailAndPassword(auth, email, pwd);
+    } catch(e) {
+      errEl.textContent = translateError(e.code);
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'ENTRER AU CASINO';
+    }
+  };
+
+  window.registerWithEmail = async () => {
+    const name = document.getElementById('register-name').value.trim();
+    const email = document.getElementById('register-email').value.trim();
+    const pwd = document.getElementById('register-password').value;
+    const errEl = document.getElementById('register-error');
+    const sucEl = document.getElementById('register-success');
+    errEl.style.display = 'none';
+    sucEl.style.display = 'none';
+    if (!name) { errEl.textContent = 'Entrez votre pseudo.'; errEl.style.display='block'; return; }
+    const btn = document.getElementById('register-btn');
+    btn.disabled = true;
+    btn.textContent = 'CRÉATION...';
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, pwd);
+      await updateProfile(cred.user, { displayName: name });
+    } catch(e) {
+      errEl.textContent = translateError(e.code);
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'CRÉER MON COMPTE';
+    }
+  };
+
+  window.loginWithGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch(e) {
+      console.error(e);
+    }
+  };
+
+  window.logout = async () => {
+    await saveBalance();
+    await signOut(auth);
+  };
+
+  function translateError(code) {
+    const map = {
+      'auth/invalid-email': 'Email invalide.',
+      'auth/user-not-found': 'Aucun compte avec cet email.',
+      'auth/wrong-password': 'Mot de passe incorrect.',
+      'auth/email-already-in-use': 'Cet email est déjà utilisé.',
+      'auth/weak-password': 'Mot de passe trop court (min. 6 caractères).',
+      'auth/invalid-credential': 'Email ou mot de passe incorrect.',
+      'auth/too-many-requests': 'Trop de tentatives. Réessayez plus tard.',
+    };
+    return map[code] || 'Erreur : ' + code;
+  }
+</script>
+
 <script>
-// ========== GLOBAL STATE ==========
-let balance = 10000;
+// ===== TAB SWITCH =====
+function switchTab(tab) {
+  document.getElementById('form-login').style.display = tab === 'login' ? 'flex' : 'none';
+  document.getElementById('form-register').style.display = tab === 'register' ? 'flex' : 'none';
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+}
+
+// ===== GLOBAL STATE =====
+window.balance = 0;
 
 function fmt(n) { return n.toLocaleString('fr-FR') + ' €'; }
 
@@ -970,8 +1302,16 @@ function updateAllBalances() {
   });
 }
 
+window.updateAllBalances = updateAllBalances;
+
+// Save after each game action
+function saveAndUpdate() {
+  updateAllBalances();
+  if (window.saveBalance) window.saveBalance();
+}
+
 function openGame(game) {
-  document.getElementById('lobby').style.display = 'none';
+  document.getElementById('lobby').classList.remove('visible');
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + game).classList.add('active');
   updateAllBalances();
@@ -979,15 +1319,13 @@ function openGame(game) {
 
 function goLobby() {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('lobby').style.display = 'flex';
+  document.getElementById('lobby').classList.add('visible');
   updateAllBalances();
 }
 
-// ========== SLOT MACHINE ==========
+// ===== SLOT MACHINE =====
 const symbols = ['7️⃣','💎','⭐','🔔','🍇','🍒','🍋','🍊','🍉','🍀'];
-const payouts = {
-  '7️⃣': 50000, '💎': 30, '⭐': 20, '🔔': 15, '🍇': 10, '🍒': 8
-};
+const payouts = { '7️⃣': 50000, '💎': 30, '⭐': 20, '🔔': 15, '🍇': 10, '🍒': 8 };
 let slotBet = 10;
 let slotSpinning = false;
 
@@ -1054,7 +1392,7 @@ function evaluateSlots(s) {
   });
 
   balance += win;
-  updateAllBalances();
+  saveAndUpdate();
   document.getElementById('slot-msg').innerHTML = msg;
 
   const hist = document.getElementById('slot-history');
@@ -1070,7 +1408,7 @@ function evaluateSlots(s) {
   }, 500);
 }
 
-// ========== ROULETTE ==========
+// ===== ROULETTE =====
 const roulNumbers = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
 const roulRed = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
 const roulColors = roulNumbers.map(n => n===0 ? 'green' : roulRed.has(n) ? 'red' : 'black');
@@ -1089,20 +1427,16 @@ function buildWheel() {
   for (let i = 0; i < n; i++) {
     const startAngle = i * angleStep - Math.PI / 2;
     const endAngle = startAngle + angleStep;
-    const x1 = cx + r * Math.cos(startAngle);
-    const y1 = cy + r * Math.sin(startAngle);
-    const x2 = cx + r * Math.cos(endAngle);
-    const y2 = cy + r * Math.sin(endAngle);
-    const ix1 = cx + inner * Math.cos(startAngle);
-    const iy1 = cy + inner * Math.sin(startAngle);
-    const ix2 = cx + inner * Math.cos(endAngle);
-    const iy2 = cy + inner * Math.sin(endAngle);
-    const fill = roulColors[i] === 'red' ? '#C0392B' : roulColors[i] === 'green' ? '#1a7a3a' : '#111111';
+    const x1 = cx + r * Math.cos(startAngle), y1 = cy + r * Math.sin(startAngle);
+    const x2 = cx + r * Math.cos(endAngle), y2 = cy + r * Math.sin(endAngle);
+    const ix1 = cx + inner * Math.cos(startAngle), iy1 = cy + inner * Math.sin(startAngle);
+    const ix2 = cx + inner * Math.cos(endAngle), iy2 = cy + inner * Math.sin(endAngle);
+    const fill = roulColors[i]==='red' ? '#C0392B' : roulColors[i]==='green' ? '#1a7a3a' : '#111111';
     const midAngle = startAngle + angleStep / 2;
     const tx = cx + (inner + (r-inner)*0.6) * Math.cos(midAngle);
     const ty = cy + (inner + (r-inner)*0.6) * Math.sin(midAngle);
     paths += '<path d="M'+ix1+','+iy1+' L'+x1+','+y1+' A'+r+','+r+' 0 0,1 '+x2+','+y2+' L'+ix2+','+iy2+' A'+inner+','+inner+' 0 0,0 '+ix1+','+iy1+'" fill="'+fill+'" stroke="#333" stroke-width="0.5"/>';
-    paths += '<text x="'+tx+'" y="'+ty+'" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="5" font-weight="600" transform="rotate('+(midAngle * 180/Math.PI + 90)+','+tx+','+ty+')">'+roulNumbers[i]+'</text>';
+    paths += '<text x="'+tx+'" y="'+ty+'" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="5" font-weight="600" transform="rotate('+(midAngle*180/Math.PI+90)+','+tx+','+ty+')">'+roulNumbers[i]+'</text>';
   }
   svg.innerHTML = paths + '<circle cx="'+cx+'" cy="'+cy+'" r="'+inner+'" fill="#1a1a1a" stroke="#D4AF37" stroke-width="2"/><circle cx="'+cx+'" cy="'+cy+'" r="20" fill="#D4AF37"/><text x="'+cx+'" y="'+cy+'" text-anchor="middle" dominant-baseline="middle" fill="#111" font-size="9" font-weight="bold">777</text>';
 }
@@ -1117,7 +1451,6 @@ function buildNumbersGrid() {
   zero.onclick = () => toggleNumBet(0);
   zero.id = 'nc-0';
   grid.appendChild(zero);
-
   for (let n = 1; n <= 36; n++) {
     const cell = document.createElement('div');
     cell.className = 'num-cell ' + (roulRed.has(n) ? 'red-num' : 'black-num');
@@ -1146,14 +1479,14 @@ function selectChip(val) {
 function selectRoulBet(type) {
   roulBets[type] = (roulBets[type] || 0) + roulChip;
   document.querySelectorAll('.outside-bets .bet-option').forEach(b => {
-    const id = b.id.replace('rb-', '');
+    const id = b.id.replace('rb-','');
     if (id === type) b.classList.add('selected');
   });
   updateRoulTotal();
 }
 
 function updateRoulTotal() {
-  const total = Object.values(roulBets).reduce((a, b) => a + b, 0);
+  const total = Object.values(roulBets).reduce((a,b) => a+b, 0);
   document.getElementById('roul-total-bet').textContent = fmt(total);
 }
 
@@ -1165,7 +1498,7 @@ function clearRoulBets() {
 
 function spinRoulette() {
   if (roulSpinning) return;
-  const total = Object.values(roulBets).reduce((a, b) => a + b, 0);
+  const total = Object.values(roulBets).reduce((a,b) => a+b, 0);
   if (total === 0) { document.getElementById('roul-msg').textContent = 'Placez au moins un pari !'; return; }
   if (balance < total) { document.getElementById('roul-msg').textContent = 'Solde insuffisant !'; return; }
 
@@ -1184,25 +1517,24 @@ function spinRoulette() {
 
   setTimeout(() => {
     const resEl = document.getElementById('roul-result');
-    const color = result === 0 ? 'green' : roulRed.has(result) ? 'red' : 'black';
+    const color = result===0 ? 'green' : roulRed.has(result) ? 'red' : 'black';
     resEl.textContent = result;
-    resEl.style.color = color === 'red' ? '#ff6060' : color === 'green' ? '#60ff90' : '#eee';
+    resEl.style.color = color==='red' ? '#ff6060' : color==='green' ? '#60ff90' : '#eee';
 
     let winAmount = 0;
     const bets = roulBets;
-
-    if (bets['num' + result]) winAmount += bets['num' + result] * 36;
-    if (color === 'red' && bets['red']) winAmount += bets['red'] * 2;
-    if (color === 'black' && bets['black']) winAmount += bets['black'] * 2;
+    if (bets['num'+result]) winAmount += bets['num'+result] * 36;
+    if (color==='red' && bets['red']) winAmount += bets['red'] * 2;
+    if (color==='black' && bets['black']) winAmount += bets['black'] * 2;
     if (result !== 0) {
-      if (result % 2 === 0 && bets['even']) winAmount += bets['even'] * 2;
-      if (result % 2 !== 0 && bets['odd']) winAmount += bets['odd'] * 2;
-      if (result <= 18 && bets['low']) winAmount += bets['low'] * 2;
-      if (result > 18 && bets['high']) winAmount += bets['high'] * 2;
+      if (result%2===0 && bets['even']) winAmount += bets['even'] * 2;
+      if (result%2!==0 && bets['odd']) winAmount += bets['odd'] * 2;
+      if (result<=18 && bets['low']) winAmount += bets['low'] * 2;
+      if (result>18 && bets['high']) winAmount += bets['high'] * 2;
     }
 
     balance += winAmount;
-    updateAllBalances();
+    saveAndUpdate();
 
     const msg = document.getElementById('roul-msg');
     if (winAmount > 0) {
@@ -1217,20 +1549,19 @@ function spinRoulette() {
   }, 4200);
 }
 
-// ========== BLACKJACK ==========
+// ===== BLACKJACK =====
 const suits = ['♠','♥','♦','♣'];
 const values = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-let bjBet = 0;
-let bjChip = 10;
+let bjBet = 0, bjChip = 10;
 let playerHand = [], dealerHand = [];
 let bjPhase = 'bet';
 
 function buildDeck() {
   let deck = [];
-  for (let s of suits) for (let v of values) deck.push({suit: s, value: v});
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
+  for (let s of suits) for (let v of values) deck.push({suit:s,value:v});
+  for (let i = deck.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [deck[i],deck[j]] = [deck[j],deck[i]];
   }
   return deck;
 }
@@ -1257,8 +1588,8 @@ function cardValue(card) {
 }
 
 function handScore(hand) {
-  let score = hand.reduce((s, c) => s + cardValue(c), 0);
-  let aces = hand.filter(c => c.value === 'A').length;
+  let score = hand.reduce((s,c) => s + cardValue(c), 0);
+  let aces = hand.filter(c => c.value==='A').length;
   while (score > 21 && aces > 0) { score -= 10; aces--; }
   return score;
 }
@@ -1278,7 +1609,7 @@ function renderHands(hideDealer) {
   const dh = document.getElementById('dealer-hand');
   ph.innerHTML = ''; dh.innerHTML = '';
   playerHand.forEach(c => ph.appendChild(renderCard(c, false)));
-  dealerHand.forEach((c, i) => dh.appendChild(renderCard(c, hideDealer && i === 1)));
+  dealerHand.forEach((c,i) => dh.appendChild(renderCard(c, hideDealer && i===1)));
   document.getElementById('player-score').textContent = 'Score: ' + handScore(playerHand);
   if (!hideDealer) {
     document.getElementById('dealer-score').textContent = 'Score: ' + handScore(dealerHand);
@@ -1294,19 +1625,14 @@ function dealBlackjack() {
   balance -= bjBet;
   updateAllBalances();
   bjPhase = 'play';
-
   playerHand = [deck.pop(), deck.pop()];
   dealerHand = [deck.pop(), deck.pop()];
   renderHands(true);
-
   document.getElementById('bj-deal-btn').disabled = true;
   document.getElementById('bj-hit-btn').disabled = false;
   document.getElementById('bj-stand-btn').disabled = false;
   document.getElementById('bj-double-btn').disabled = false;
-
-  if (handScore(playerHand) === 21) {
-    bjStand();
-  } else {
+  if (handScore(playerHand) === 21) { bjStand(); } else {
     document.getElementById('bj-msg').textContent = 'Tirez (Hit) ou restez (Stand) ?';
   }
 }
@@ -1314,12 +1640,8 @@ function dealBlackjack() {
 function bjHit() {
   playerHand.push(deck.pop());
   renderHands(true);
-  if (handScore(playerHand) > 21) {
-    renderHands(false);
-    endBj('bust');
-  } else if (handScore(playerHand) === 21) {
-    bjStand();
-  }
+  if (handScore(playerHand) > 21) { renderHands(false); endBj('bust'); }
+  else if (handScore(playerHand) === 21) { bjStand(); }
   document.getElementById('bj-double-btn').disabled = true;
 }
 
@@ -1330,10 +1652,10 @@ function bjStand() {
   while (handScore(dealerHand) < 17) dealerHand.push(deck.pop());
   renderHands(false);
   const ps = handScore(playerHand), ds = handScore(dealerHand);
-  if (ps === 21 && playerHand.length === 2) endBj('blackjack');
-  else if (ds > 21) endBj('dealerbust');
-  else if (ps > ds) endBj('win');
-  else if (ps === ds) endBj('push');
+  if (ps===21 && playerHand.length===2) endBj('blackjack');
+  else if (ds>21) endBj('dealerbust');
+  else if (ps>ds) endBj('win');
+  else if (ps===ds) endBj('push');
   else endBj('lose');
 }
 
@@ -1357,7 +1679,6 @@ function endBj(outcome) {
   document.getElementById('bj-hit-btn').disabled = true;
   document.getElementById('bj-stand-btn').disabled = true;
   document.getElementById('bj-double-btn').disabled = true;
-
   const msgs = {
     blackjack: ['🎉 BLACKJACK ! Vous gagnez ×2.5 !', 2.5],
     win: ['✨ Vous gagnez !', 2],
@@ -1369,10 +1690,9 @@ function endBj(outcome) {
   const [msg, mult] = msgs[outcome];
   const win = Math.floor(saved * mult);
   balance += win;
-  updateAllBalances();
-  const color = mult >= 2 ? 'var(--gold)' : mult === 1 ? 'var(--text-muted)' : 'var(--red)';
-  document.getElementById('bj-msg').innerHTML = '<span style="color:' + color + '">' + msg + '</span>';
-
+  saveAndUpdate();
+  const color = mult>=2 ? 'var(--gold)' : mult===1 ? 'var(--text-muted)' : 'var(--red)';
+  document.getElementById('bj-msg').innerHTML = '<span style="color:'+color+'">'+msg+'</span>';
   setTimeout(() => {
     if (bjPhase === 'bet') {
       document.getElementById('player-hand').innerHTML = '';
@@ -1384,7 +1704,7 @@ function endBj(outcome) {
   }, 3000);
 }
 
-// ========== DICE / CRAPS ==========
+// ===== DICE / CRAPS =====
 const DICE_DOTS = {
   1: [[1,1]],
   2: [[0,0],[2,2]],
@@ -1414,7 +1734,7 @@ function renderDie(el, val) {
 function selectDiceBet(type) {
   diceBet = type;
   document.querySelectorAll('.dice-bet-opt').forEach(el => el.classList.remove('selected'));
-  document.getElementById('db-' + type).classList.add('selected');
+  document.getElementById('db-'+type).classList.add('selected');
 }
 
 function selectDiceChip(val) {
@@ -1460,24 +1780,22 @@ function rollDice() {
       document.getElementById('dice-total').textContent = total;
 
       let win = 0;
-      const bet = diceBet;
-      const amt = diceBetAmount;
-
-      if (bet === 'pass' && (total === 7 || total === 11)) win = amt * 2;
-      else if (bet === 'nopass' && (total === 2 || total === 3)) win = amt * 2;
-      else if (bet === 'any7' && total === 7) win = amt * 4;
-      else if (bet === 'any11' && total === 11) win = amt * 14;
-      else if (bet === 'any12' && total === 12) win = amt * 30;
-      else if (bet === 'even' && total % 2 === 0) win = amt * 2;
+      const bet = diceBet, amt = diceBetAmount;
+      if (bet==='pass' && (total===7||total===11)) win = amt*2;
+      else if (bet==='nopass' && (total===2||total===3)) win = amt*2;
+      else if (bet==='any7' && total===7) win = amt*4;
+      else if (bet==='any11' && total===11) win = amt*14;
+      else if (bet==='any12' && total===12) win = amt*30;
+      else if (bet==='even' && total%2===0) win = amt*2;
 
       balance += win;
-      updateAllBalances();
+      saveAndUpdate();
 
       const msg = document.getElementById('dice-msg');
       if (win > 0) {
-        msg.innerHTML = '<span style="color:var(--gold)">🎲 ' + v1 + '+' + v2 + '=' + total + ' — Vous gagnez ' + fmt(win) + ' !</span>';
+        msg.innerHTML = '<span style="color:var(--gold)">🎲 '+v1+'+'+v2+'='+total+' — Vous gagnez '+fmt(win)+' !</span>';
       } else {
-        msg.innerHTML = '<span style="color:var(--red)">🎲 ' + v1 + '+' + v2 + '=' + total + ' — Perdu cette fois.</span>';
+        msg.innerHTML = '<span style="color:var(--red)">🎲 '+v1+'+'+v2+'='+total+' — Perdu cette fois.</span>';
       }
 
       diceBetAmount = 0;
@@ -1488,15 +1806,13 @@ function rollDice() {
   }, 80);
 }
 
-// ========== INIT ==========
+// ===== INIT =====
 buildWheel();
 buildNumbersGrid();
 renderDie(document.getElementById('die1'), 1);
 renderDie(document.getElementById('die2'), 6);
 selectChip(10);
 selectDiceBet('pass');
-selectDiceChip(10);
-selectBjChip(10);
 </script>
 </body>
 </html>

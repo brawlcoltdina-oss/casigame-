@@ -492,9 +492,9 @@ function endBj(outcome) {
   document.getElementById('bj-stand-btn').disabled = true;
   document.getElementById('bj-double-btn').disabled = true;
   const msgs = {
-    blackjack: ['🎉 BLACKJACK ! Vous gagnez ×2.5 !', 2.5],
+    blackjack: ['🎉 BLACKJACK ! Vous gagnez ×20 !', 20],
     win: ['✨ Vous gagnez !', 2],
-    dealerbust: ['🎉 Le croupier dépasse 21 !', 2],
+    dealerbust: ['🎉 Le croupier dépasse 21 !', 25],
     push: ['🤝 Égalité — mise remboursée', 1],
     bust: ['💥 Dépassé 21 !', 0],
     lose: ['Le croupier gagne.', 0]

@@ -170,16 +170,16 @@ function goLobby() {
 
 // ===== SLOT MACHINE =====
 const symbols = ['7️⃣','💎','⭐','🔔','🍇','🍒','🍋','🍊','🍉','🍀'];
-const payouts = { '7️⃣': 50000, '💎': 500, '⭐': 250, '🔔': 100, '🍇': 50, '🍒': 25 };
+const payouts = { '7️⃣': 500000, '💎': 1500, '⭐': 500, '🔔': 200, '🍇': 100, '🍒': 75 };
 let slotBet = 10;
 let slotSpinning = false;
 
 function changeBet(delta) {
-  slotBet = Math.max(5, Math.min(10000, slotBet + delta));
+  slotBet = Math.max(5, Math.min(1000000, slotBet + delta));
   document.getElementById('slot-bet').textContent = slotBet;
 }
 function changeBet2(delta) {
-  slotBet = Math.max(500, Math.min(10000, slotBet + delta));
+  slotBet = Math.max(500, Math.min(1000000, slotBet + delta));
   document.getElementById('slot-bet').textContent = slotBet;
 }
 

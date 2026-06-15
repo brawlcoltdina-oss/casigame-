@@ -179,7 +179,7 @@ function changeBet(delta) {
   document.getElementById('slot-bet').textContent = slotBet;
 }
 function changeBet2(delta) {
-  slotBet = Math.max(500, Math.min(1000000, slotBet + delta));
+  slotBet = Math.max(10000, Math.min(1000000, slotBet + delta));
   document.getElementById('slot-bet').textContent = slotBet;
 }
 

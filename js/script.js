@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, onSnapshot, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { loadLeaderboard } from './leaderboard.js';
 
 const firebaseConfig = {
@@ -21,6 +21,71 @@ const googleProvider = new GoogleAuthProvider();
 window._auth = auth;
 window._db = db;
 
+// ===== JACKPOT GLOBAL NOTIFICATIONS =====
+const jackpotStyle = document.createElement('style');
+jackpotStyle.textContent = `
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  }
+`;
+document.head.appendChild(jackpotStyle);
+
+function listenJackpots() {
+  const q = query(collection(db, 'jackpots'), orderBy('at', 'desc'), limit(1));
+  onSnapshot(q, (snap) => {
+    snap.docChanges().forEach(change => {
+      if (change.type === 'added') {
+        const d = change.doc.data();
+        // Ne pas afficher en double pour le gagnant (déjà affiché localement)
+        if (d.uid === auth.currentUser?.uid && Date.now() - d.at < 3000) return;
+        showJackpotBanner(d.player, d.symbol, d.amount);
+      }
+    });
+  });
+}
+
+function showJackpotBanner(player, symbol, amount) {
+  const old = document.getElementById('jackpot-banner');
+  if (old) old.remove();
+
+  const banner = document.createElement('div');
+  banner.id = 'jackpot-banner';
+  banner.innerHTML = `
+    <div style="font-size:2rem">${symbol === '7️⃣' ? '7️⃣7️⃣7️⃣' : '💎💎💎'}</div>
+    <div style="font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);letter-spacing:0.15em">🎉 JACKPOT !</div>
+    <div style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--text);margin-top:0.3rem">
+      <strong style="color:var(--gold-light)">${player}</strong> vient de gagner
+    </div>
+    <div style="font-family:'Cinzel',serif;font-size:1.3rem;color:#4ade80;margin-top:0.2rem;font-weight:700">
+      +${amount.toLocaleString('fr-FR')} €
+    </div>
+  `;
+  Object.assign(banner.style, {
+    position: 'fixed',
+    top: '60px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    background: 'linear-gradient(135deg, #1a0a00, #2a1500)',
+    border: '2px solid var(--gold)',
+    borderRadius: '12px',
+    padding: '1.2rem 2rem',
+    textAlign: 'center',
+    zIndex: '9999',
+    boxShadow: '0 0 40px rgba(212,175,55,0.5)',
+    animation: 'fadeInDown 0.4s ease',
+    minWidth: '280px',
+  });
+
+  document.body.appendChild(banner);
+  setTimeout(() => {
+    banner.style.transition = 'opacity 0.5s';
+    banner.style.opacity = '0';
+    setTimeout(() => banner.remove(), 500);
+  }, 6000);
+}
+
+// ===== AUTH =====
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     document.getElementById('auth-screen').style.display = 'none';
@@ -39,13 +104,14 @@ onAuthStateChanged(auth, async (user) => {
       window.balance = snap.data().balance;
     }
     const name = user.displayName || user.email.split('@')[0];
-    const initials = name.substring(0,2).toUpperCase();
+    const initials = name.substring(0, 2).toUpperCase();
     document.getElementById('user-avatar').textContent = initials;
     document.getElementById('user-display-name').textContent = name;
     document.getElementById('user-email-display').textContent = user.email;
     document.getElementById('user-bar').classList.add('visible');
     document.getElementById('loading-screen').style.display = 'none';
     document.getElementById('lobby').classList.add('visible');
+    listenJackpots();
     window.updateAllBalances();
   } else {
     document.getElementById('auth-screen').style.display = 'flex';
@@ -91,7 +157,7 @@ window.registerWithEmail = async () => {
   const sucEl = document.getElementById('register-success');
   errEl.style.display = 'none';
   sucEl.style.display = 'none';
-  if (!name) { errEl.textContent = 'Entrez votre pseudo.'; errEl.style.display='block'; return; }
+  if (!name) { errEl.textContent = 'Entrez votre pseudo.'; errEl.style.display = 'block'; return; }
   const btn = document.getElementById('register-btn');
   btn.disabled = true;
   btn.textContent = 'CRÉATION...';
@@ -142,7 +208,7 @@ function fmt(n) { return n.toLocaleString('fr-FR') + ' €'; }
 
 function updateAllBalances() {
   document.getElementById('lobby-balance').textContent = fmt(balance);
-  ['slots','roul','bj','dice'].forEach(id => {
+  ['slots', 'roul', 'bj', 'dice'].forEach(id => {
     const el = document.getElementById(id + '-balance');
     if (el) el.textContent = fmt(balance);
   });
@@ -183,7 +249,6 @@ function changeBet2(delta) {
   document.getElementById('slot-bet').textContent = slotBet;
 }
 
-
 function spinSlots() {
   slotBet = Math.max(1, Math.min(10000000000000000, parseInt(document.getElementById('slot-bet').value) || 10));
   if (slotSpinning || balance < slotBet) {
@@ -195,7 +260,7 @@ function spinSlots() {
   updateAllBalances();
   document.getElementById('spin-btn').disabled = true;
   document.getElementById('slot-msg').textContent = '';
-  const reels = [0,1,2];
+  const reels = [0, 1, 2];
   reels.forEach(i => document.getElementById('reel' + i).classList.add('spinning'));
   let ticks = 0;
   const interval = setInterval(() => {
@@ -217,25 +282,43 @@ function spinSlots() {
 
 function evaluateSlots(s) {
   let win = 0, msg = '';
-  let reels_win = [false,false,false];
+  let reels_win = [false, false, false];
+
   if (s[0] === s[1] && s[1] === s[2]) {
     const mult = payouts[s[0]] || 5;
     win = slotBet * mult;
     msg = '<span class="win-msg">🎉 JACKPOT ! × ' + mult + ' = +' + fmt(win) + '</span>';
-    reels_win = [true,true,true];
+    reels_win = [true, true, true];
+
+    // Notifier tous les joueurs si 7️⃣ ou 💎
+    if (s[0] === '7️⃣' || s[0] === '💎') {
+      const user = auth.currentUser;
+      const name = user.displayName || user.email.split('@')[0];
+      addDoc(collection(db, 'jackpots'), {
+        uid: user.uid,
+        player: name,
+        symbol: s[0],
+        amount: win,
+        at: Date.now()
+      });
+      // Afficher immédiatement pour le gagnant
+      showJackpotBanner(name, s[0], win);
+    }
   } else if (s[0] === s[1] || s[1] === s[2] || s[0] === s[2]) {
     win = Math.floor(slotBet * 2);
     msg = '<span class="win-msg">✨ DEUX IDENTIQUES ! +' + fmt(win) + '</span>';
-    if (s[0]===s[1]) { reels_win[0]=reels_win[1]=true; }
-    else if (s[1]===s[2]) { reels_win[1]=reels_win[2]=true; }
-    else { reels_win[0]=reels_win[2]=true; }
+    if (s[0] === s[1]) { reels_win[0] = reels_win[1] = true; }
+    else if (s[1] === s[2]) { reels_win[1] = reels_win[2] = true; }
+    else { reels_win[0] = reels_win[2] = true; }
   } else {
     msg = '<span class="lose-msg">Pas de chance. Réessayez !</span>';
   }
-  [0,1,2].forEach(i => {
-    if (reels_win[i]) document.getElementById('reel'+i).classList.add('win');
-    setTimeout(() => document.getElementById('reel'+i).classList.remove('win'), 1500);
+
+  [0, 1, 2].forEach(i => {
+    if (reels_win[i]) document.getElementById('reel' + i).classList.add('win');
+    setTimeout(() => document.getElementById('reel' + i).classList.remove('win'), 1500);
   });
+
   balance += win;
   saveAndUpdate();
   document.getElementById('slot-msg').innerHTML = msg;
@@ -250,8 +333,6 @@ function evaluateSlots(s) {
     document.getElementById('spin-btn').disabled = false;
   }, 500);
 }
-
-
 
 // ===== EXPOSE GLOBAL FUNCTIONS =====
 window.openGame = openGame;

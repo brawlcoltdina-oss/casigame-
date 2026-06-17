@@ -31,14 +31,25 @@ jackpotStyle.textContent = `
 `;
 document.head.appendChild(jackpotStyle);
 
+let _lastJackpotId = null;
+
 function listenJackpots() {
   const q = query(collection(db, 'jackpots'), orderBy('at', 'desc'), limit(1));
+  let firstLoad = true;
   onSnapshot(q, (snap) => {
+    if (firstLoad) {
+      firstLoad = false;
+      snap.docs.forEach(d => { _lastJackpotId = d.id; });
+      return;
+    }
     snap.docChanges().forEach(change => {
       if (change.type === 'added') {
         const d = change.doc.data();
-        // Ne pas afficher en double pour le gagnant (déjà affiché localement)
-        if (d.uid === auth.currentUser?.uid && Date.now() - d.at < 3000) return;
+        const docId = change.doc.id;
+        if (docId === _lastJackpotId) return;
+        _lastJackpotId = docId;
+        console.log('[JACKPOT] Received:', d);
+        if (d.uid === auth.currentUser?.uid) return;
         showJackpotBanner(d.player, d.symbol, d.amount);
       }
     });
@@ -290,19 +301,28 @@ function evaluateSlots(s) {
     msg = '<span class="win-msg">🎉 JACKPOT ! × ' + mult + ' = +' + fmt(win) + '</span>';
     reels_win = [true, true, true];
 
-    // Notifier tous les joueurs si 7️⃣ ou 💎
-    if (s[0] === '7️⃣' || s[0] === '💎') {
+    // Notifier tous les joueurs si 7️⃣ ou 💎 (comparaison robuste par codepoint)
+    const sym = s[0];
+    const is7 = sym.codePointAt(0) === '7️⃣'.codePointAt(0);
+    const isDiamond = sym.includes('💎');
+    console.log('[JACKPOT] sym=', sym, 'is7=', is7, 'isDiamond=', isDiamond);
+
+    if (is7 || isDiamond) {
       const user = auth.currentUser;
       const name = user.displayName || user.email.split('@')[0];
-      addDoc(collection(db, 'jackpots'), {
+      const jackpotData = {
         uid: user.uid,
         player: name,
-        symbol: s[0],
+        symbol: sym,
         amount: win,
         at: Date.now()
-      });
+      };
+      console.log('[JACKPOT] Saving to Firestore:', jackpotData);
+      addDoc(collection(db, 'jackpots'), jackpotData)
+        .then(() => console.log('[JACKPOT] Saved OK'))
+        .catch(err => console.error('[JACKPOT] Save error:', err));
       // Afficher immédiatement pour le gagnant
-      showJackpotBanner(name, s[0], win);
+      showJackpotBanner(name, sym, win);
     }
   } else if (s[0] === s[1] || s[1] === s[2] || s[0] === s[2]) {
     win = Math.floor(slotBet * 2);

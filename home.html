@@ -104,21 +104,13 @@
       <div class="game-name">MACHINES À SOUS</div>
       <div class="game-desc">777 · JACKPOT · BONUS</div>
     </div>
-    <div class="game-card" onclick="openGame('roulette')">
-      <span class="game-icon">🎡</span>
-      <div class="game-name">ROULETTE</div>
-      <div class="game-desc">EUROPÉENNE · 37 NUMÉROS</div>
-    </div>
+    
     <div class="game-card" onclick="openGame('blackjack')">
       <span class="game-icon">🃏</span>
       <div class="game-name">BLACKJACK</div>
       <div class="game-desc">21 · DOUBLE · SPLIT</div>
     </div>
-    <div class="game-card" onclick="openGame('dice')">
-      <span class="game-icon">🎲</span>
-      <div class="game-name">CRAPS</div>
-      <div class="game-desc">DÉS · PASSE · DON'T PASS</div>
-    </div>
+   
   </div>
   <button class="leaderboard-btn" onclick="openGame('leaderboard')">
   🏆 CLASSEMENT DES JOUEURS
@@ -181,49 +173,7 @@
   </div>
 </div>
 
-<!-- ROULETTE -->
-<div class="screen" id="screen-roulette">
-  <div class="top-bar">
-    <button class="back-btn" onclick="goLobby()">← LOBBY</button>
-    <div class="top-game-name">🎡 ROULETTE</div>
-    <div class="top-balance" id="roul-balance">0 €</div>
-  </div>
-  <div class="roulette-wrapper">
-    <div class="wheel-container">
-      <div class="wheel-pointer"></div>
-      <svg class="wheel-svg" id="roulette-wheel" viewBox="0 0 200 200"></svg>
-    </div>
-    <div class="roulette-result" id="roul-result">—</div>
-    <div class="msg-box" id="roul-msg">Choisissez vos paris et lancez !</div>
-    <div class="betting-board">
-      <div class="board-title">— PARIS EXTÉRIEURS —</div>
-      <div class="outside-bets">
-        <div class="bet-option red-opt" onclick="selectRoulBet('red')" id="rb-red">🔴 ROUGE</div>
-        <div class="bet-option" onclick="selectRoulBet('black')" id="rb-black">⚫ NOIR</div>
-        <div class="bet-option" onclick="selectRoulBet('even')" id="rb-even">PAIR</div>
-        <div class="bet-option" onclick="selectRoulBet('odd')" id="rb-odd">IMPAIR</div>
-        <div class="bet-option" onclick="selectRoulBet('low')" id="rb-low">1—18</div>
-        <div class="bet-option" onclick="selectRoulBet('high')" id="rb-high">19—36</div>
-      </div>
-      <div class="board-title" style="margin-top:0.8rem">— NUMÉRO PLEIN —</div>
-      <div class="numbers-grid" id="numbers-grid"></div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:0.8rem;width:100%;max-width:600px">
-      <div class="chip-row" id="roul-chips">
-        <div class="chip chip-5" onclick="selectChip(5)">5€</div>
-        <div class="chip chip-10" onclick="selectChip(10)">10€</div>
-        <div class="chip chip-25" onclick="selectChip(25)">25€</div>
-        <div class="chip chip-50" onclick="selectChip(50)">50€</div>
-        <div class="chip chip-100" onclick="selectChip(100)">100€</div>
-      </div>
-      <div class="spin-area">
-        <button class="roul-spin-btn" id="roul-spin-btn" onclick="spinRoulette()">▶ LANCER</button>
-        <button class="roul-spin-btn" style="background:rgba(192,57,43,0.3);border:1px solid var(--red);color:#ff8080" onclick="clearRoulBets()">✕ EFFACER</button>
-      </div>
-      <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:var(--text-muted)">MISE TOTALE: <span id="roul-total-bet" style="color:var(--gold)">0€</span></div>
-    </div>
-  </div>
-</div>
+
 
 <!-- BLACKJACK -->
 <div class="screen" id="screen-blackjack">
@@ -262,41 +212,6 @@
     </div>
   </div>
 </div>
-
-<!-- DICE / CRAPS -->
-<div class="screen" id="screen-dice">
-  <div class="top-bar">
-    <button class="back-btn" onclick="goLobby()">← LOBBY</button>
-    <div class="top-game-name">🎲 CRAPS</div>
-    <div class="top-balance" id="dice-balance">0 €</div>
-  </div>
-  <div class="dice-wrapper">
-    <div style="font-family:'Cinzel',serif;color:var(--gold-dark);font-size:0.7rem;letter-spacing:0.2em">RÉSULTAT</div>
-    <div class="dice-area">
-      <div class="die" id="die1"></div>
-      <div class="die" id="die2"></div>
-    </div>
-    <div style="font-family:'Cinzel',serif;font-size:2rem;color:var(--gold)" id="dice-total">—</div>
-    <div class="msg-box" id="dice-msg">Choisissez votre pari et lancez les dés !</div>
-    <div class="dice-bets">
-      <div class="dice-bet-opt" onclick="selectDiceBet('pass')" id="db-pass">PASSE<br><span style="color:var(--text-muted);font-size:0.55rem">7 ou 11 = gagné</span></div>
-      <div class="dice-bet-opt" onclick="selectDiceBet('nopass')" id="db-nopass">DON'T PASS<br><span style="color:var(--text-muted);font-size:0.55rem">2,3 = gagné</span></div>
-      <div class="dice-bet-opt" onclick="selectDiceBet('any7')" id="db-any7">TOTAL 7<br><span style="color:var(--text-muted);font-size:0.55rem">× 5</span></div>
-      <div class="dice-bet-opt" onclick="selectDiceBet('any11')" id="db-any11">TOTAL 11<br><span style="color:var(--text-muted);font-size:0.55rem">× 20</span></div>
-      <div class="dice-bet-opt" onclick="selectDiceBet('any12')" id="db-any12">TOTAL 12<br><span style="color:var(--text-muted);font-size:0.55rem">× 300</span></div>
-      <div class="dice-bet-opt" onclick="selectDiceBet('even')" id="db-even">PAIR<br><span style="color:var(--text-muted);font-size:0.55rem">× 3</span></div>
-    </div>
-    <div class="chip-row" id="dice-chips">
-      <div class="chip chip-5" onclick="selectDiceChip(5)">5€</div>
-      <div class="chip chip-10" onclick="selectDiceChip(10)">10€</div>
-      <div class="chip chip-25" onclick="selectDiceChip(25)">25€</div>
-      <div class="chip chip-50" onclick="selectDiceChip(50)">50€</div>
-    </div>
-    <div style="font-family:'Cinzel',serif;font-size:0.75rem;color:var(--text-muted)">MISE: <span id="dice-bet-display" style="color:var(--gold)">0€</span></div>
-    <button class="roll-btn" id="roll-btn" onclick="rollDice()">🎲 LANCER LES DÉS</button>
-  </div>
-</div>
-
 
 
 <!-- CLASSEMENT -->

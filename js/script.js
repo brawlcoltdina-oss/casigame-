@@ -185,7 +185,7 @@ function changeBet2(delta) {
 
 
 function spinSlots() {
-  slotBet = Math.max(5, Math.min(1000000, parseInt(document.getElementById('slot-bet').value) || 10));
+  slotBet = Math.max(5, Math.min(10000000000000000, parseInt(document.getElementById('slot-bet').value) || 10));
   if (slotSpinning || balance < slotBet) {
     document.getElementById('slot-msg').innerHTML = '<span class="lose-msg">Solde insuffisant !</span>';
     return;

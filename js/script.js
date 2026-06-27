@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, onSnapshot, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { loadLeaderboard } from './leaderboard.js';
+import './slots-engine.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDaimPB4wFPVasidcMqyDlopDCwhq1C5Xo",
@@ -226,11 +227,6 @@ function updateAllBalances() {
 }
 window.updateAllBalances = updateAllBalances;
 
-function saveAndUpdate() {
-  updateAllBalances();
-  if (window.saveBalance) window.saveBalance();
-}
-
 function openGame(game) {
   document.getElementById('lobby').classList.remove('visible');
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -245,140 +241,14 @@ function goLobby() {
   updateAllBalances();
 }
 
-// ===== SLOT MACHINE =====
-const symbols = ['7️⃣','💎','⭐','🔔','🍇','🍒','🍋','🍊','🍉','🍀'];
-const payouts = { '7️⃣': 500000, '💎': 1500, '⭐': 500, '🔔': 200, '🍇': 100, '🍒': 75 };
-let slotBet = 10;
-let slotSpinning = false;
-
-function changeBet(delta) {
-  slotBet = Math.max(1, Math.min(1000000, slotBet + delta));
-  document.getElementById('slot-bet').textContent = slotBet;
-}
-function changeBet2(delta) {
-  slotBet = Math.max(10000, Math.min(1000000, slotBet + delta));
-  document.getElementById('slot-bet').textContent = slotBet;
-}
-
-function spinSlots() {
-  slotBet = Math.max(1, Math.min(10000000000000000, parseInt(document.getElementById('slot-bet').value) || 10));
-  if (slotSpinning || balance < slotBet) {
-    document.getElementById('slot-msg').innerHTML = '<span class="lose-msg">Solde insuffisant !</span>';
-    return;
-  }
-  slotSpinning = true;
-  balance -= slotBet;
-  updateAllBalances();
-  document.getElementById('spin-btn').disabled = true;
-  document.getElementById('slot-msg').textContent = '';
-  const reels = [0, 1, 2];
-  reels.forEach(i => document.getElementById('reel' + i).classList.add('spinning'));
-  let ticks = 0;
-  const interval = setInterval(() => {
-    reels.forEach(i => {
-      document.getElementById('sym' + i).textContent = symbols[Math.floor(Math.random() * symbols.length)];
-    });
-    ticks++;
-    if (ticks > 25) {
-      clearInterval(interval);
-      const final = reels.map(() => symbols[Math.floor(Math.random() * symbols.length)]);
-      reels.forEach(i => {
-        document.getElementById('reel' + i).classList.remove('spinning');
-        document.getElementById('sym' + i).textContent = final[i];
-      });
-      evaluateSlots(final);
-    }
-  }, 60);
-}
-
-function evaluateSlots(s) {
-  let win = 0, msg = '';
-  let reels_win = [false, false, false];
-
-  if (s[0] === s[1] && s[1] === s[2]) {
-    const mult = payouts[s[0]] || 5;
-    win = slotBet * mult;
-    msg = '<span class="win-msg">🎉 JACKPOT ! × ' + mult + ' = +' + fmt(win) + '</span>';
-    reels_win = [true, true, true];
-
-    // Notifier tous les joueurs si 7️⃣ ou 💎 (comparaison robuste par codepoint)
-    const sym = s[0];
-    const is7 = sym.codePointAt(0) === '7️⃣'.codePointAt(0);
-    const isDiamond = sym.includes('💎');
-    console.log('[JACKPOT] sym=', sym, 'is7=', is7, 'isDiamond=', isDiamond);
-
-    if (is7 || isDiamond) {
-      const user = auth.currentUser;
-      const name = user.displayName || user.email.split('@')[0];
-      const jackpotData = {
-        uid: user.uid,
-        player: name,
-        symbol: sym,
-        amount: win,
-        at: Date.now()
-      };
-      console.log('[JACKPOT] Saving to Firestore:', jackpotData);
-      addDoc(collection(db, 'jackpots'), jackpotData)
-        .then(() => console.log('[JACKPOT] Saved OK'))
-        .catch(err => console.error('[JACKPOT] Save error:', err));
-      // Afficher immédiatement pour le gagnant
-      showJackpotBanner(name, sym, win);
-    }
-  } else if (s[0] === s[1] || s[1] === s[2] || s[0] === s[2]) {
-    win = Math.floor(slotBet * 2);
-    msg = '<span class="win-msg">✨ DEUX IDENTIQUES ! +' + fmt(win) + '</span>';
-    if (s[0] === s[1]) { reels_win[0] = reels_win[1] = true; }
-    else if (s[1] === s[2]) { reels_win[1] = reels_win[2] = true; }
-    else { reels_win[0] = reels_win[2] = true; }
-  } else {
-    msg = '<span class="lose-msg">Pas de chance. Réessayez !</span>';
-  }
-
-  [0, 1, 2].forEach(i => {
-    if (reels_win[i]) document.getElementById('reel' + i).classList.add('win');
-    setTimeout(() => document.getElementById('reel' + i).classList.remove('win'), 1500);
-  });
-
-  balance += win;
-  saveAndUpdate();
-  document.getElementById('slot-msg').innerHTML = msg;
-  const hist = document.getElementById('slot-history');
-  const chip = document.createElement('div');
-  chip.className = 'hist-chip ' + (win > 0 ? 'hist-win' : 'hist-lose');
-  chip.textContent = win > 0 ? '+' : '−';
-  hist.insertBefore(chip, hist.firstChild);
-  if (hist.children.length > 15) hist.removeChild(hist.lastChild);
-  setTimeout(() => {
-    slotSpinning = false;
-    document.getElementById('spin-btn').disabled = false;
-  }, 500);
-}
-
 // ===== EXPOSE GLOBAL FUNCTIONS =====
+// Note : spinSlots est défini et exposé par slots-engine.js (import ci-dessus)
 window.openGame = openGame;
 window.goLobby = goLobby;
 window.switchTab = switchTab;
-window.changeBet = changeBet;
-window.changeBet2 = changeBet2;
-window.spinSlots = spinSlots;
-window.selectChip = selectChip;
-window.selectRoulBet = selectRoulBet;
-window.clearRoulBets = clearRoulBets;
-window.spinRoulette = spinRoulette;
 window.selectBjChip = selectBjChip;
 window.dealBlackjack = dealBlackjack;
 window.bjHit = bjHit;
 window.bjStand = bjStand;
 window.bjDouble = bjDouble;
-window.selectDiceBet = selectDiceBet;
-window.selectDiceChip = selectDiceChip;
-window.rollDice = rollDice;
 window.loadLeaderboard = loadLeaderboard;
-
-// ===== INIT =====
-buildWheel();
-buildNumbersGrid();
-renderDie(document.getElementById('die1'), 1);
-renderDie(document.getElementById('die2'), 6);
-selectChip(10);
-selectDiceBet('pass');

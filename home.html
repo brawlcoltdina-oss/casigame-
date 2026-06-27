@@ -6,7 +6,7 @@
 <title>Casino 777</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="leaderboard.css">
-
+<link rel="stylesheet" href="slots.css">
 </head>
 <body>
 
@@ -104,16 +104,13 @@
       <div class="game-name">MACHINES À SOUS</div>
       <div class="game-desc">777 · JACKPOT · BONUS</div>
     </div>
-    
-    
-   
   </div>
   <button class="leaderboard-btn" onclick="openGame('leaderboard')">
   🏆 CLASSEMENT DES JOUEURS
 </button>
 </div>
 
-<!-- SLOT MACHINE -->
+<!-- SLOT MACHINE — 5 ROULEAUX -->
 <div class="screen" id="screen-slots">
   <div class="top-bar">
     <button class="back-btn" onclick="goLobby()">← LOBBY</button>
@@ -121,50 +118,85 @@
     <div class="top-balance" id="slots-balance">0 €</div>
   </div>
   <div class="slot-wrapper">
-    <div class="slot-machine">
-      <div class="slot-reels">
-        <div class="reel" id="reel0"><span class="reel-symbol" id="sym0">🍒</span></div>
-        <div class="reel" id="reel1"><span class="reel-symbol" id="sym1">🍋</span></div>
-        <div class="reel" id="reel2"><span class="reel-symbol" id="sym2">🍊</span></div>
+    <div class="slot-machine" id="slot-cabinet">
+      <div class="slot-cabinet-top">
+        <span class="slot-marquee">♦ ROYAL 777 ♦</span>
+        <span class="slot-lines-indicator" id="lines-indicator">5 LIGNES ACTIVES</span>
       </div>
-     <div class="bet-controls">
-  <div class="bet-display">
-    MISE: 
-    <input 
-      type="number" 
-      id="slot-bet" 
-      value="10" 
-      min="5" 
-      max="1000000"
-      style="
-        background: transparent;
-        border: none;
-        border-bottom: 1px solid var(--gold);
-        color: var(--gold);
-        font-family: 'Cinzel', serif;
-        font-size: 1rem;
-        width: 120px;
-        text-align: center;
-        outline: none;
-      "
-    >€
-  </div>
-</div>
+
+      <div class="slot-reels" id="slot-reels-container" style="position:relative">
+        <div class="reel-column" id="col0">
+          <div class="reel-cell"><span class="reel-symbol">🍒</span></div>
+          <div class="reel-cell"><span class="reel-symbol">🍋</span></div>
+          <div class="reel-cell"><span class="reel-symbol">🍊</span></div>
+        </div>
+        <div class="reel-column" id="col1">
+          <div class="reel-cell"><span class="reel-symbol">🍇</span></div>
+          <div class="reel-cell"><span class="reel-symbol">🔔</span></div>
+          <div class="reel-cell"><span class="reel-symbol">⭐</span></div>
+        </div>
+        <div class="reel-column" id="col2">
+          <div class="reel-cell"><span class="reel-symbol">💎</span></div>
+          <div class="reel-cell"><span class="reel-symbol">7️⃣</span></div>
+          <div class="reel-cell"><span class="reel-symbol">🍒</span></div>
+        </div>
+        <div class="reel-column" id="col3">
+          <div class="reel-cell"><span class="reel-symbol">🍋</span></div>
+          <div class="reel-cell"><span class="reel-symbol">🍊</span></div>
+          <div class="reel-cell"><span class="reel-symbol">🍇</span></div>
+        </div>
+        <div class="reel-column" id="col4">
+          <div class="reel-cell"><span class="reel-symbol">🔔</span></div>
+          <div class="reel-cell"><span class="reel-symbol">⭐</span></div>
+          <div class="reel-cell"><span class="reel-symbol">💎</span></div>
+        </div>
+
+        <svg class="paylines-overlay" id="paylines-svg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+        <div class="win-particles" id="win-particles"></div>
+      </div>
+
+      <div class="bet-controls">
+        <div class="bet-display">
+          MISE:
+          <input
+            type="number"
+            id="slot-bet"
+            value="10"
+            min="5"
+            max="1000000"
+            style="
+              background: transparent;
+              border: none;
+              border-bottom: 1px solid var(--gold);
+              color: var(--gold);
+              font-family: 'Cinzel', serif;
+              font-size: 1rem;
+              width: 120px;
+              text-align: center;
+              outline: none;
+            "
+          >€ <span style="font-size:0.7rem;color:var(--text-muted)">/ ligne</span>
+        </div>
+      </div>
+
       <div class="result-msg" id="slot-msg"></div>
       <div style="height:0.8rem"></div>
       <button class="spin-btn" id="spin-btn" onclick="spinSlots()">▶ TOURNER</button>
     </div>
+
     <div class="history" id="slot-history"></div>
+
     <div class="paytable">
-      <div class="paytable-title">— TABLE DES GAINS —</div>
-      <div class="pay-row"><span>7️⃣ 7️⃣ 7️⃣</span><span class="pay-win">× 500000</span></div>
-      <div class="pay-row"><span>💎 💎 💎</span><span class="pay-win">× 1500</span></div>
-      <div class="pay-row"><span>⭐ ⭐ ⭐</span><span class="pay-win">× 500</span></div>
-      <div class="pay-row"><span>🔔 🔔 🔔</span><span class="pay-win">× 200</span></div>
-      <div class="pay-row"><span>🍇 🍇 🍇</span><span class="pay-win">× 100</span></div>
-      <div class="pay-row"><span>🍒 🍒 🍒</span><span class="pay-win">× 75</span></div>
-      <div class="pay-row"><span>X X X (identiques)</span><span class="pay-win">× 10</span></div>
-      <div class="pay-row"><span>2 identiques</span><span class="pay-win">× 2</span></div>
+      <div class="paytable-title">— TABLE DES GAINS (par ligne) —</div>
+      <div class="pay-row"><span>7️⃣ 7️⃣ 7️⃣ 7️⃣ 7️⃣</span><span class="pay-win">× 5000</span></div>
+      <div class="pay-row"><span>💎 💎 💎 💎 💎</span><span class="pay-win">× 1000</span></div>
+      <div class="pay-row"><span>⭐ ⭐ ⭐ ⭐ ⭐</span><span class="pay-win">× 300</span></div>
+      <div class="pay-row"><span>🔔 🔔 🔔 🔔 🔔</span><span class="pay-win">× 150</span></div>
+      <div class="pay-row"><span>🍇 🍇 🍇 🍇 🍇</span><span class="pay-win">× 80</span></div>
+      <div class="pay-row"><span>🍒 🍒 🍒 🍒 🍒</span><span class="pay-win">× 50</span></div>
+      <div class="pay-row"><span>4 symboles identiques (ligne)</span><span class="pay-win">× 8</span></div>
+      <div class="pay-row"><span>3 symboles identiques (ligne)</span><span class="pay-win">× 2</span></div>
+      <div class="paytable-note">5 lignes actives en permanence — chaque ligne est jouée avec la mise indiquée</div>
     </div>
   </div>
 </div>
@@ -223,12 +255,10 @@
     <div class="lb-subtitle">LES JOUEURS LES PLUS FORTUNÉS</div>
     <div class="gold-line"></div>
 
-    <!-- Podium top 3 — rempli dynamiquement par JS -->
     <div class="lb-podium" id="lb-podium"></div>
 
     <div class="lb-divider"></div>
 
-    <!-- Tableau complet — rempli dynamiquement par JS -->
     <div class="lb-table" id="lb-table">
       <div class="lb-loading">
         <div class="loader"></div>

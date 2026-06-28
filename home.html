@@ -110,21 +110,60 @@
 </button>
 </div>
 
-<!-- SLOT MACHINE — 5 ROULEAUX -->
+<!-- 
+  REMPLACEMENT COMPLET du bloc <div class="screen" id="screen-slots">
+  dans index.html
+  
+  Colle ce bloc à la place de l'ancien écran slots.
+-->
+
+<!-- SLOT MACHINE — 3 MACHINES AU CHOIX -->
 <div class="screen" id="screen-slots">
   <div class="top-bar">
     <button class="back-btn" onclick="goLobby()">← LOBBY</button>
     <div class="top-game-name">🎰 MACHINES À SOUS</div>
     <div class="top-balance" id="slots-balance">0 €</div>
   </div>
+
   <div class="slot-wrapper">
+
+    <!-- SÉLECTEUR DE MACHINES -->
+    <div class="machine-selector">
+      <button class="machine-tab active" data-machine="classic" onclick="selectMachine('classic')">
+        <span class="tab-icon">7️⃣</span>
+        <span>ROYAL 777</span>
+        <span class="tab-name">5R · WILDS · JACKPOT</span>
+      </button>
+      <button class="machine-tab" data-machine="fruit" onclick="selectMachine('fruit')">
+        <span class="tab-icon">🍉</span>
+        <span>MEGA FRUIT</span>
+        <span class="tab-name">3R · BONUS GAME · MULT</span>
+      </button>
+      <button class="machine-tab" data-machine="diamond" onclick="selectMachine('diamond')">
+        <span class="tab-icon">💎</span>
+        <span>DIAMOND RUSH</span>
+        <span class="tab-name">4R · CASCADES · GEMS</span>
+      </button>
+    </div>
+
+    <!-- BANNER FREE SPINS -->
+    <div class="free-spins-banner" id="free-spins-banner">
+      🌟 FREE SPINS EN COURS —
+      <span class="free-spins-count-badge" id="free-spins-count">0</span>
+      restants — MISE GRATUITE !
+    </div>
+
+    <!-- MACHINE -->
     <div class="slot-machine" id="slot-cabinet">
       <div class="slot-cabinet-top">
-        <span class="slot-marquee">♦ ROYAL 777 ♦</span>
+        <span class="slot-marquee" id="slot-marquee">♦ ROYAL 777 ♦</span>
         <span class="slot-lines-indicator" id="lines-indicator">5 LIGNES ACTIVES</span>
       </div>
 
-      <div class="slot-reels" id="slot-reels-container" style="position:relative">
+      <!-- GRILLE DES ROULEAUX -->
+      <div class="slot-reels" id="slot-reels-container" style="position:relative; grid-template-columns: repeat(5, 1fr)">
+        <!-- Les colonnes sont générées dynamiquement par slots-engine.js -->
+        <!-- Initial static columns for first render (will be replaced) -->
         <div class="reel-column" id="col0">
           <div class="reel-cell"><span class="reel-symbol">🍒</span></div>
           <div class="reel-cell"><span class="reel-symbol">🍋</span></div>
@@ -155,6 +194,12 @@
         <div class="win-particles" id="win-particles"></div>
       </div>
 
+      <!-- INDICATEUR CASCADE -->
+      <div class="cascade-indicator" id="cascade-indicator">
+        🌊 MODE CASCADE ACTIVÉ — Les combinaisons gagnantes disparaissent et sont remplacées avec un multiplicateur croissant !
+      </div>
+
+      <!-- CONTRÔLES DE MISE -->
       <div class="bet-controls">
         <div class="bet-display">
           MISE:
@@ -162,7 +207,7 @@
             type="number"
             id="slot-bet"
             value="10"
-            min="5"
+            min="1"
             max="1000000"
             style="
               background: transparent;
@@ -171,37 +216,50 @@
               color: var(--gold);
               font-family: 'Cinzel', serif;
               font-size: 1rem;
-              width: 120px;
+              width: 100px;
               text-align: center;
               outline: none;
             "
-          >€ <span style="font-size:0.7rem;color:var(--text-muted)">/ ligne</span>
+          >€
+          <span style="font-size:0.65rem;color:var(--text-muted)">/ligne</span>
+        </div>
+        <div class="bet-preset-btns">
+          <button class="bet-preset" onclick="document.getElementById('slot-bet').value=5">5</button>
+          <button class="bet-preset" onclick="document.getElementById('slot-bet').value=10">10</button>
+          <button class="bet-preset" onclick="document.getElementById('slot-bet').value=25">25</button>
+          <button class="bet-preset" onclick="document.getElementById('slot-bet').value=50">50</button>
+          <button class="bet-preset" onclick="document.getElementById('slot-bet').value=100">100</button>
+          <button class="bet-preset" onclick="document.getElementById('slot-bet').value=500">500</button>
         </div>
       </div>
 
       <div class="result-msg" id="slot-msg"></div>
-      <div style="height:0.8rem"></div>
+      <div style="height:0.6rem"></div>
       <button class="spin-btn" id="spin-btn" onclick="spinSlots()">▶ TOURNER</button>
     </div>
 
+    <!-- HISTORIQUE -->
     <div class="history" id="slot-history"></div>
 
+    <!-- TABLE DES GAINS (dynamique) -->
     <div class="paytable">
       <div class="paytable-title">— TABLE DES GAINS (par ligne) —</div>
-      <div class="pay-row"><span>7️⃣ 7️⃣ 7️⃣ 7️⃣ 7️⃣</span><span class="pay-win">× 5000</span></div>
-      <div class="pay-row"><span>💎 💎 💎 💎 💎</span><span class="pay-win">× 1000</span></div>
-      <div class="pay-row"><span>⭐ ⭐ ⭐ ⭐ ⭐</span><span class="pay-win">× 300</span></div>
-      <div class="pay-row"><span>🔔 🔔 🔔 🔔 🔔</span><span class="pay-win">× 150</span></div>
-      <div class="pay-row"><span>🍇 🍇 🍇 🍇 🍇</span><span class="pay-win">× 80</span></div>
-      <div class="pay-row"><span>🍒 🍒 🍒 🍒 🍒</span><span class="pay-win">× 50</span></div>
-      <div class="pay-row"><span>4 symboles identiques (ligne)</span><span class="pay-win">× 8</span></div>
-      <div class="pay-row"><span>3 symboles identiques (ligne)</span><span class="pay-win">× 2</span></div>
-      <div class="paytable-note">5 lignes actives en permanence — chaque ligne est jouée avec la mise indiquée</div>
+      <div id="paytable-rows">
+        <!-- Rempli dynamiquement par slots-engine.js -->
+        <div class="pay-row"><span>7️⃣ 7️⃣ 7️⃣ 7️⃣ 7️⃣</span><span class="pay-win">× 5 000</span></div>
+        <div class="pay-row"><span>💎 💎 💎 💎 💎</span><span class="pay-win">× 1 000</span></div>
+        <div class="pay-row"><span>⭐ ⭐ ⭐ ⭐ ⭐</span><span class="pay-win">× 300</span></div>
+        <div class="pay-row"><span>🔔 🔔 🔔 🔔 🔔</span><span class="pay-win">× 150</span></div>
+        <div class="pay-row"><span>🍇 🍇 🍇 🍇 🍇</span><span class="pay-win">× 80</span></div>
+        <div class="pay-row"><span>🍒 🍒 🍒 🍒 🍒</span><span class="pay-win">× 50</span></div>
+        <div class="pay-row pay-row-special"><span>🃏 = WILD (remplace tout)</span><span class="pay-win">✦</span></div>
+        <div class="pay-row pay-row-special"><span>⭐ 3× = 8 FREE SPINS</span><span class="pay-win">🌟</span></div>
+      </div>
+      <div class="paytable-note">5 lignes actives — mise indiquée par ligne — WILD remplace tout symbole</div>
     </div>
+
   </div>
 </div>
-
-
 
 <!-- BLACKJACK -->
 <div class="screen" id="screen-blackjack">
